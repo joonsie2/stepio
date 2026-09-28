@@ -13,6 +13,7 @@ const SINGLETON_NAME := "StepioHealth"
 var backend_name := "Fake steps (desktop)"
 var _native: Object
 var _next_request_id := 1
+var _fake_extra := []  # [unix time, steps] added by add_fake_steps().
 
 
 func _ready() -> void:
@@ -69,15 +70,14 @@ func query_steps(start_unix: int, end_unix: int) -> int:
 	return request_id
 
 
+## Desktop only: pretends the player just walked this many steps.
+func add_fake_steps(steps: int) -> void:
+	_fake_extra.append([int(Time.get_unix_time_from_system()), steps])
+
+
 ## Unix time of local midnight, days_ago days before today.
 static func local_midnight_unix(days_ago: int = 0) -> int:
-	var today := Time.get_date_dict_from_system()
-	var midnight_as_utc := Time.get_unix_time_from_datetime_dict({
-		"year": today.year, "month": today.month, "day": today.day,
-		"hour": 0, "minute": 0, "second": 0,
-	})
-	var bias_seconds: int = Time.get_time_zone_from_system().bias * 60
-	return int(midnight_as_utc) - bias_seconds - days_ago * 86400
+	return LocalDays.midnight_unix(days_ago)
 
 
 func _on_native_permission_result(granted: bool, message: String) -> void:
@@ -97,4 +97,7 @@ func _emit_fake_steps(request_id: int, start_unix: int, end_unix: int) -> void:
 	var now := int(Time.get_unix_time_from_system())
 	var seconds := maxi(0, mini(end_unix, now) - start_unix)
 	var total := int(seconds * 7000.0 / 86400.0) + (start_unix / 86400) % 900
+	for extra in _fake_extra:
+		if extra[0] >= start_unix and extra[0] <= end_unix:
+			total += extra[1]
 	steps_received.emit(request_id, total, total - total / 50, "")
