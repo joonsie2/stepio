@@ -1,0 +1,29 @@
+#!/usr/bin/env python
+# Builds the StepioHealth GDExtension for iOS (HealthKit).
+#
+#   git clone -b godot-4.5-stable --depth 1 https://github.com/godotengine/godot-cpp
+#   scons platform=ios arch=arm64 target=template_debug
+#   scons platform=ios arch=arm64 target=template_release
+#
+# Output lands in addons/stepio_health/bin/ios/, where the .gdextension file expects it.
+
+env = SConscript("godot-cpp/SConstruct")
+
+if env["platform"] != "ios":
+    print("StepioHealth only has an iOS native part. Build with platform=ios.")
+    Exit(1)
+
+env.Append(CPPPATH=["src/"])
+env.Append(LINKFLAGS=["-framework", "Foundation", "-framework", "HealthKit", "-framework", "UIKit"])
+
+objc_env = env.Clone()
+objc_env.Append(CCFLAGS=["-fobjc-arc"])
+
+sources = [env.SharedObject(f) for f in Glob("src/*.cpp")]
+sources += [objc_env.SharedObject(f) for f in Glob("src/*.mm")]
+
+library = env.SharedLibrary(
+    "../addons/stepio_health/bin/ios/libstepio_health{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
+    source=sources,
+)
+Default(library)
