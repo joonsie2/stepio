@@ -1,9 +1,11 @@
 extends Control
 ## Step reading test screen: asks for step access, shows today's steps and the
-## last 7 days, and logs how long each read takes.
+## last 7 days, and logs how long each read takes. Opened from the game's
+## profile popup.
 
 const AUTO_REFRESH_SECONDS := 30.0
 const DAYS_SHOWN := 7
+const GAME_SCENE := "res://game/main.tscn"
 
 @onready var _status_label: Label = %StatusLabel
 @onready var _today_label: Label = %TodayLabel
@@ -28,6 +30,7 @@ func _ready() -> void:
 	_refresh_button.pressed.connect(refresh)
 	_settings_button.pressed.connect(StepReader.open_settings)
 	_settings_button.visible = StepReader.is_native()
+	%BackButton.pressed.connect(func(): get_tree().change_scene_to_file(GAME_SCENE))
 
 	var timer := Timer.new()
 	timer.wait_time = AUTO_REFRESH_SECONDS

@@ -10,15 +10,17 @@ config_version=5
 
 [application]
 
-config/name="step.io step test"
-config/description="Checks that real step counts can be read from Health Connect and HealthKit."
-run/main_scene="res://main.tscn"
+config/name="step.io"
+config/description="Walking game prototype: real steps times your pals' multiplier become stepscore."
+run/main_scene="res://game/main.tscn"
 config/icon="res://icon.svg"
 config/features=PackedStringArray("4.7", "Mobile")
 
 [autoload]
 
 StepReader="*res://steps/step_reader.gd"
+GameState="*res://game/game_state.gd"
+StepSync="*res://game/step_sync.gd"
 
 [display]
 

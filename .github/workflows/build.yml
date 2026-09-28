@@ -1,4 +1,4 @@
-name: Build step test
+name: Build
 
 on:
   push:
@@ -11,6 +11,21 @@ env:
   GODOT_CPP_REF: godot-4.5-stable
 
 jobs:
+  checks:
+    name: Scoring checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Godot and export templates
+        uses: ./.github/actions/setup-godot
+
+      - name: Import project
+        run: godot --headless --import
+
+      - name: Run scoring checks
+        run: timeout 120 godot --headless -s res://tests/test_scoring.gd
+
   android:
     name: Android APK
     runs-on: ubuntu-latest
