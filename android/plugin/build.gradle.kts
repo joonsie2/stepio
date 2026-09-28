@@ -7,9 +7,9 @@ plugins {
 val godotVersion = "4.7.2.stable"
 
 // Keep in sync with _get_android_dependencies() in addons/stepio_health/export_plugin.gd.
-// 1.1.0 stable needs Android Gradle plugin 8.9.1, but Godot 4.7's Android build
-// template uses 8.6.1, so use the April 2025 release candidate until it catches up.
-val healthConnectVersion = "1.1.0-rc01"
+// Health Connect needs Android Gradle plugin 8.9.1+; export_plugin.gd raises the
+// version in Godot's Android build template to match.
+val healthConnectVersion = "1.1.0"
 val coroutinesVersion = "1.9.0"
 
 android {
