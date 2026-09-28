@@ -12,7 +12,7 @@ const HEALTH_SHARE_USAGE := "step.io reads your step count so your steps can pow
 
 # Keep in sync with android/plugin/build.gradle.kts.
 const ANDROID_DEPENDENCIES := [
-	"androidx.health.connect:connect-client:1.1.0",
+	"androidx.health.connect:connect-client:1.1.0-rc01",
 	"org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0",
 ]
 

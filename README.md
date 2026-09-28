@@ -20,7 +20,7 @@ Godot has no official HealthKit or Health Connect support, and the community plu
 
 | Platform | Native part | Source |
 |---|---|---|
-| Android | Godot Android plugin (AAR, Kotlin) using Health Connect 1.1.0 | `android/plugin` |
+| Android | Godot Android plugin (AAR, Kotlin) using Health Connect 1.1.0-rc01 | `android/plugin` |
 | iOS | GDExtension (Objective-C++) using HealthKit | `ios/src` |
 
 `steps/step_reader.gd` (autoload `StepReader`) wraps the singleton and falls back to fake steps on desktop. `addons/stepio_health` adds the native parts, the Android dependencies and the iOS HealthKit settings to exports.
