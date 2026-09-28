@@ -1,0 +1,27 @@
+# Godot
+.godot/
+/android/build/
+/android/.build_version
+*.apk
+*.aab
+/build/
+export_credentials.cfg
+
+# Native plugin build outputs (built by CI or locally, see README)
+/addons/stepio_health/bin/android/*.aar
+/addons/stepio_health/bin/ios/*.dylib
+/addons/stepio_health/bin/ios/*.framework/
+
+# Gradle
+/android/plugin/.gradle/
+/android/plugin/build/
+/android/plugin/local.properties
+.gradle/
+.kotlin/
+
+# SCons / godot-cpp
+/ios/godot-cpp/
+/ios/.sconsign*.dblite
+*.o
+*.os
+.DS_Store

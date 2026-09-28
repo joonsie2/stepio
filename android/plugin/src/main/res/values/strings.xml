@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="stepio_health_privacy">step.io reads your step count so your steps can power the game. It only reads steps, never writes health data, and does not share it with anyone.</string>
+</resources>

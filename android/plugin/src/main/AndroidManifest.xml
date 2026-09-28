@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.health.READ_STEPS" />
+
+    <!-- Lets the app see the Health Connect app on Android 13 and older. -->
+    <queries>
+        <package android:name="com.google.android.apps.healthdata" />
+    </queries>
+
+    <application>
+        <meta-data
+            android:name="org.godotengine.plugin.v2.StepioHealth"
+            android:value="io.stepio.health.StepioHealthPlugin" />
+
+        <!--
+            Health Connect will not show its permission screen unless the app can
+            explain how it uses the data. Android 13 and older open this activity
+            through ACTION_SHOW_PERMISSIONS_RATIONALE, Android 14 and newer through
+            VIEW_PERMISSION_USAGE.
+        -->
+        <activity
+            android:name="io.stepio.health.PrivacyActivity"
+            android:exported="true"
+            android:theme="@android:style/Theme.DeviceDefault.Dialog">
+            <intent-filter>
+                <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE" />
+            </intent-filter>
+        </activity>
+
+        <activity-alias
+            android:name="io.stepio.health.ViewPermissionUsageActivity"
+            android:exported="true"
+            android:permission="android.permission.START_VIEW_PERMISSION_USAGE"
+            android:targetActivity="io.stepio.health.PrivacyActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW_PERMISSION_USAGE" />
+                <category android:name="android.intent.category.HEALTH_PERMISSIONS" />
+            </intent-filter>
+        </activity-alias>
+    </application>
+</manifest>
