@@ -3,6 +3,7 @@ package io.stepio.health
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.util.Log
 import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.PermissionController
@@ -163,8 +164,11 @@ class StepioHealthPlugin(godot: Godot) : GodotPlugin(godot) {
                 Intent(Intent.ACTION_VIEW, Uri.parse(
                     "market://details?id=$HEALTH_CONNECT_PACKAGE&url=healthconnect%3A%2F%2Fonboarding"
                 )).setPackage("com.android.vending")
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                // Health Connect is part of Android 14+, with its own settings screen.
+                Intent("android.health.connect.action.HEALTH_HOME_SETTINGS")
             } else {
-                Intent(HealthConnectClient.getHealthConnectSettingsAction())
+                Intent(HealthConnectClient.ACTION_HEALTH_CONNECT_SETTINGS)
             }
             try {
                 act.startActivity(intent)
